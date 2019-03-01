@@ -1,0 +1,96 @@
+package com.hacker.mail;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hacker.mail.FeedbackRepository;
+@Controller
+
+public class FeedbackController {
+   @Autowired
+   private FeedbackRepository feedbackRepository;
+   @Autowired
+   EntityManagerFactory emf ;
+   @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @RequestMapping(value="/persistFeedback", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> persistFeedBack(@RequestBody Feedback feedback) {
+    	Feedback feed = new Feedback();
+    	
+    	feed.setEmpID(feedback.empID);
+    	feed.setRating(feedback.rating);
+    	feed.setDescription(feedback.description);
+    	feed.setEventID(feedback.eventid);
+    	feed.setBusinessUnit(feedback.businessUnit);
+    	feedbackRepository.save(feed);
+       System.out.println("COming to springg"+feedback.description);
+     
+        return ResponseEntity.ok().build();
+    }
+   
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @GetMapping("/getFeedbackByEvent")
+        public  @ResponseBody Iterable <Feedback> getFeedbackByEventID(@RequestParam("eventID") int eventid) {
+    	System.out.println("coming here");
+    
+           
+    	//Use below code on create/update
+    	EntityManager entityManager = emf.createEntityManager();
+
+    	
+    	 // EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+    	     	 
+    	entityManager.getTransaction().begin();
+    		
+    	Iterable<Feedback> feed  =( Iterable<Feedback>) entityManager.createQuery("SELECT count(f.rating),f.rating FROM Feedback f where f.eventid="+eventid+ "group by f.rating").getResultList();
+  	
+
+    	entityManager.getTransaction().commit();
+    	entityManager.close();
+    	return feed;
+    	//return feedbackRepository.findAll();
+    }
+    
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+    @GetMapping("/getFeedbackByBU")
+        public  @ResponseBody Iterable <Feedback> getFeedbackByBU() {
+    	
+    	//Use below code on create/update
+    	EntityManager entityManager = emf.createEntityManager();
+
+    	
+    	 // EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+    	     	 
+    	entityManager.getTransaction().begin();
+    		
+    	Iterable<Feedback> feed  =( Iterable<Feedback>) entityManager.createQuery("SELECT avg(f.rating),f.business_unit FROM Feedback f where group by f.business_unit").getResultList();
+  	
+
+    	entityManager.getTransaction().commit();
+    	entityManager.close();
+    	return feed;
+    	//return feedbackRepository.findAll();
+    }
+    
+  
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Mailer/src/main/resources/Outreach Events Summary.xlsx&apos; to &apos;Outreach Event Summary.xlsx&apos;" description="Rename resource &apos;Outreach Events Summary.xlsx&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/Outreach Events Summary.xlsx" name="Outreach Event Summary.xlsx" stamp="1551091399200" updateReferences="true"/>
+</session>

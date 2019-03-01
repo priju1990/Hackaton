@@ -1,0 +1,61 @@
+package com.hacker.mail;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+@Entity
+public class Admin {
+	 @Id
+	 int empID;
+	 long phoneNum;
+	 String name;
+	 String pwd;
+	 int eventid;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id", insertable = false, updatable = false)
+	@Fetch(FetchMode.JOIN)
+	 Event event;
+	public int getEmpID() {
+		return empID;
+	}
+	public void setEmpID(int empID) {
+		this.empID = empID;
+	}
+	public long getPhoneNum() {
+		return phoneNum;
+	}
+	public void setPhoneNum(long phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	public int getEventid() {
+		return eventid;
+	}
+	public void setEventid(int eventid) {
+		this.eventid = eventid;
+	}
+	public Event getEvent() {
+		return event;
+	}
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+}

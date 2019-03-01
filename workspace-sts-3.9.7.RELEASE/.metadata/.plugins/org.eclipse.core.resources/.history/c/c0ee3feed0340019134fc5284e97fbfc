@@ -1,0 +1,30 @@
+package com.hacker.mail;
+
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+@Configuration
+@EnableBatchProcessing
+public class EmailingController {
+	  @Autowired
+	    private EmailService emailService;
+	 
+	@Bean   
+	public  void sendEmail(){
+		 System.out.println("Spring Mail - Sending Simple Email with JavaMailSender Example");
+
+	        Email mail = new Email();
+	        mail.setFrom("priya.raju3@cognizant.com");
+	        mail.setTo("priyaraju.me@gmail.com");
+	        mail.setSubject("Feedback for Outreach Event");
+	        mail.setContent("Please click on the link to provide your feedback.");
+	        mail.setContent("http://localhost:3000/");
+
+	        emailService.sendSimpleMessage(mail);
+		
+	}
+
+}

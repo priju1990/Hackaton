@@ -1,0 +1,13 @@
+package com.hacker.mail;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Admin {
+	private int empID;
+	private long phoneNum;
+	private String name;
+	private String pwd;
+	private int eventid;
+
+}

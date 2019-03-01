@@ -1,0 +1,39 @@
+package com.hacker.mail;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@SpringBootApplication @Configuration @EnableAutoConfiguration @ComponentScan
+public class MailerApplication implements ApplicationRunner {
+
+    private static Logger log = LoggerFactory.getLogger(MailerApplication.class);
+
+    @Autowired
+    private EmailService emailService;
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(MailerApplication.class, args);
+    }
+
+    @Override
+    public void run(ApplicationArguments applicationArguments) throws Exception {
+        System.out.println("Spring Mail - Sending Simple Email with JavaMailSender Example");
+
+        Email mail = new Email();
+        mail.setFrom("priya.raju3@cognizant.com");
+        mail.setTo("priya.raju1003@cognizant.com");
+        mail.setSubject("Feedback for Outreach Event");
+        mail.setContent("Please click on the link to provide your feedback.");
+        mail.setContent("http://localhost:3000/");
+
+        emailService.sendSimpleMessage(mail);
+    }
+}

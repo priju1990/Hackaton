@@ -1,0 +1,18 @@
+package com.hancker.feedback;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class FeedbackController {
+   
+    @RequestMapping(value = "/persistFeedback", method = RequestMethod.GET)
+    public ResponseEntity < String > persistFeedBack(@RequestBody String feedback,int empID, int rating) {
+       System.out.println("COming to springg");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+}

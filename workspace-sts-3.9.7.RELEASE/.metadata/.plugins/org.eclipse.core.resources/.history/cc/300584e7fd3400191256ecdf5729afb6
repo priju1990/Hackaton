@@ -1,0 +1,22 @@
+server.port=9090
+
+spring.mail.properties.mail.smtp.connectiontimeout=100000
+spring.mail.properties.mail.smtp.timeout=100000
+spring.mail.properties.mail.smtp.writetimeout=100000
+
+spring.mail.default-encoding=UTF-8
+spring.mail.host=smtp.gmail.com
+spring.mail.username=priya.raju1003@gmail.com
+spring.mail.password=follett@123
+spring.mail.port=587
+spring.mail.protocol=smtp
+spring.mail.test-connection=false
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+
+#DB details
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/feedback_system
+spring.datasource.username=root
+spring.datasource.password=pass@word1

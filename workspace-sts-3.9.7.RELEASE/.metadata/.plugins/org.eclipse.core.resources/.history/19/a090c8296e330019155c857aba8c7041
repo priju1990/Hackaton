@@ -1,0 +1,80 @@
+package com.hacker.mail;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class AdminController  { 
+	 @Autowired
+	private AdminRepository adminRepository;
+	 @Autowired
+	 private EventRepository eventRepo;
+	 @Autowired
+	   EntityManagerFactory emf ;
+	   @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+	    @RequestMapping(value="/createRole", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	    public ResponseEntity<String> createUser(@RequestBody Admin role) {
+		  
+		   Admin admin = new Admin();
+	    	
+	    	admin.setEmpID(role.empID);
+	    	admin.setName(role.name);
+	    	admin.setPhoneNum(role.phoneNum);
+	    	admin.setRole(role.role);
+	    	admin.setPwd(Integer.toString(role.empID)+"@cts");
+	    	admin.setEventid(role.eventid);
+	    	
+	       System.out.println("COming to springg"+admin.phoneNum);
+	       adminRepository.save(admin);
+	        return ResponseEntity.ok().build();
+	    }
+	   @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+	    @RequestMapping(value="/createEvent", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
+	    public ResponseEntity<String> createEvent(@RequestBody Event event) {
+		  
+		   Event e = new Event();
+	    	
+	    	e.setID(event.ID);
+	    	e.setName(event.name);
+	    	e.setCity(event.city);
+	    	e.setCountry(event.country);
+	    	e.setMonth(event.month);
+	    	e.setPoc(event.poc);
+	    	
+	    	
+	     
+	    	eventRepo.save(e);
+	        return ResponseEntity.ok().build();
+	    }
+	   @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+	    @RequestMapping(value="/login", method = RequestMethod.GET)
+	    public @ResponseBody List <String> login(@RequestParam("empID") long empID, @RequestParam("pwd") String pwd) {
+	    	EntityManager entityManager = emf.createEntityManager();
+
+	    	
+	    	 // EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+	    	     	 
+	    	entityManager.getTransaction().begin();
+	    		
+	    	List <String> role  =entityManager.createQuery("SELECT role, empID FROM Admin where empID="+empID+" and pwd="+"'"+pwd+"'").getResultList();
+	  	
+
+	    	entityManager.getTransaction().commit();
+	    	entityManager.close();
+	    	return role ;
+}
+
+}
